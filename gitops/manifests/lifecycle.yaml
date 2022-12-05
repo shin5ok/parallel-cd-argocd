@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: lifecycle
+  name: lifecycle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lifecycle
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: lifecycle
+    spec:
+      containers:
+      - image: gcr.io/${GOOGLE_CLOUD_PROJECT}/cloud-run-lifecycle:v2
+        name: cloud-run-lifecycle
+        resources: {}
+        env:
+        - name: NAME
+          value: "lifecycle-060100"
+        - name: SLACK_CHANNEL
+          value: "log"
+        # - name: DO_NOTIFY
+        #   value: "1"
+status: {}

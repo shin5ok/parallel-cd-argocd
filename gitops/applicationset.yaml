@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: licecycle-applicationset
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: in-cluster
+        url: https://kubernetes.default.svc
+      - cluster: ext-cluster-2
+        url: https://35.238.58.199
+      - cluster: ext-cluster-3
+        url: https://34.135.56.11
+      - cluster: ext-cluster-4
+        url: https://34.72.161.94
+      - cluster: ext-cluster-5
+        url: https://34.71.109.90
+      - cluster: ext-cluster-6
+        url: https://35.225.24.200
+      - cluster: ext-taurus-cluster-1
+        url: https://35.225.179.9
+      - cluster: ext-taurus-cluster-2
+        url: https://35.202.236.52
+      - cluster: ext-taurus-cluster-3
+        url: https://104.198.16.228
+  template:
+    metadata:
+      name: '{{cluster}}-lifecycle'
+    spec:
+      syncPolicy:
+        automated: {}
+      project: default
+      source:
+        repoURL: https://github.com/shin5ok/parallel-cd-argocd
+        targetRevision: HEAD
+        path: parallel-cd-argocd/gitops/manifests
+      destination:
+        server: '{{url}}'
+        namespace: default
