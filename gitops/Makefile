@@ -1,3 +1,3 @@
 .PHONY: build
 build:
-	bash ./build.sh
+	bash ./scripts/build.sh
